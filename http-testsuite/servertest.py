@@ -10,7 +10,7 @@ def main():
     # Create a test object
     h = HttpTest()
 
-    # Download some files from https://pan.vmars.tuwien.ac.at/osue/ to use in
+    # Download some files from http://eu.httpbin.org/ to use in
     # the tests.
     create_docroot()
 
@@ -280,18 +280,18 @@ def create_docroot():
 
     if not os.path.exists("__docroot/index.html"):
         download_file(
-            "http://pan.vmars.tuwien.ac.at/osue/", "__docroot/index.html"
+            "http://eu.httpbin.org/html", "__docroot/index.html"
         )
 
-    if not os.path.exists("__docroot/countdown.js"):
+    if not os.path.exists("__docroot/test.html"):
         download_file(
-            "http://pan.vmars.tuwien.ac.at/osue/countdown.js",
-            "__docroot/countdown.js",
+            "http://eu.httpbin.org/html",
+            "__docroot/test.html",
         )
 
     if not os.path.exists("__docroot/cat.png"):
         download_file(
-            "http://pan.vmars.tuwien.ac.at/osue/cat.png", "__docroot/cat.png"
+            "http://eu.httpbin.org/image/png", "__docroot/cat.png"
         )
 
     if not os.path.exists("__docroot/solarized.css"):
