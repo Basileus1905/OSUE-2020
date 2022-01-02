@@ -21,11 +21,11 @@ def main():
     h.is_returncode("./server -p 12 __docroot/index.html", 1)
 
     # Test the server with valid arguments
-    h.does_timeout("./server -p 1334 __docroot")
+    h.does_timeout("./server -p 1334 __docroot/") #5
     h.does_timeout("./server -p 1335 -i servertest.py ./__docroot/")
 
     # Start a server in the background and test a couple of requests
-    p = h.start_server("./server -p 1337 __docroot")
+    p = h.start_server("./server -p 1337 __docroot/")
     try:
 
         gzip_header = {"Accept-Encoding": "gzip"}
@@ -34,7 +34,7 @@ def main():
         h.in_response_header("http://localhost:1337/", "Connection", "close")
 
         index_size = os.path.getsize("__docroot/index.html")
-        h.in_response_header(
+        h.in_response_header( #8
             "http://localhost:1337/", "Content-Length", str(index_size)
         )
 
@@ -46,8 +46,8 @@ def main():
         ):
             print("NOTE: This is a bonus task.")
 
-        if not h.in_response_header(
-            "http://localhost:1337/countdown.js",
+        if not h.in_response_header( #11
+            "http://localhost:1337/ArtmartService.js",
             "Content-Type",
             "application/javascript",
         ):
@@ -59,7 +59,7 @@ def main():
             print("NOTE: This is a bonus task.")
 
         # Check if the response header contains the gzip if we request gzip
-        if not h.in_response_header(
+        if not h.in_response_header(#13
             "http://localhost:1337/",
             "Content-Encoding",
             "gzip",
@@ -81,7 +81,7 @@ def main():
         h.in_response_header(
             "http://localhost:1337/doesnotexist", "Connection", "close"
         )
-        h.in_response_header(
+        h.in_response_header( #16
             "http://localhost:1337/", "Connection", "close", method="POST"
         )
 
@@ -92,8 +92,8 @@ def main():
         h.compare_response_body(
             "http://localhost:1337/index.html", "__docroot/index.html"
         )
-        h.compare_response_body(
-            "http://localhost:1337/countdown.js", "__docroot/countdown.js"
+        h.compare_response_body( #19
+            "http://localhost:1337/ArtmartService.js", "__docroot/ArtmartService.js"
         )
         h.compare_response_body(
             "http://localhost:1337/cat.png", "__docroot/cat.png"
@@ -113,8 +113,8 @@ def main():
             headers=gzip_header,
         )
         h.compare_response_body(
-            "http://localhost:1337/countdown.js",
-            "__docroot/countdown.js",
+            "http://localhost:1337/ArtmartService.js",
+            "__docroot/ArtmartService.js",
             headers=gzip_header,
         )
         h.compare_response_body(
@@ -130,12 +130,12 @@ def main():
 
         # Check the content-lenght
         h.verify_content_length("http://localhost:1337/")
-        h.verify_content_length("http://localhost:1337/countdown.js")
+        h.verify_content_length("http://localhost:1337/ArtmartService.js")  #28
         h.verify_content_length("http://localhost:1337/cat.png")
         h.verify_content_length("http://localhost:1337/solarized.css")
         h.verify_content_length("http://localhost:1337/", headers=gzip_header)
         h.verify_content_length(
-            "http://localhost:1337/countdown.js", headers=gzip_header
+            "http://localhost:1337/ArtmartService.js", headers=gzip_header
         )
         h.verify_content_length(
             "http://localhost:1337/cat.png", headers=gzip_header
@@ -147,7 +147,7 @@ def main():
         # Check Status codes upon success
         h.is_statuscode("http://localhost:1337/", 200)
         h.is_statuscode("http://localhost:1337/index.html", 200)
-        h.is_statuscode("http://localhost:1337/countdown.js", 200)
+        h.is_statuscode("http://localhost:1337/ArtmartService.js", 200)
         h.is_statuscode("http://localhost:1337/cat.png", 200)
         h.is_statuscode("http://localhost:1337/solarized.css", 200)
         h.is_statuscode("http://localhost:1337/", 200, headers=gzip_header)
@@ -155,7 +155,7 @@ def main():
             "http://localhost:1337/index.html", 200, headers=gzip_header
         )
         h.is_statuscode(
-            "http://localhost:1337/countdown.js", 200, headers=gzip_header
+            "http://localhost:1337/ArtmartService.js", 200, headers=gzip_header
         )
         h.is_statuscode(
             "http://localhost:1337/cat.png", 200, headers=gzip_header
@@ -200,7 +200,7 @@ def main():
         )
 
         # Now lets simulate a client so bad we have to write it ourself.
-        # Oh boy/girl this will be fun 😈
+        # Oh boy/girl this will be fun ����
         first = "GET / HTTP/1.0"
         res = send_bad_request("localhost:1337", first)
         if res.status == 400:
@@ -283,10 +283,10 @@ def create_docroot():
             "http://eu.httpbin.org/html", "__docroot/index.html"
         )
 
-    if not os.path.exists("__docroot/test.html"):
+    if not os.path.exists("__docroot/ArtmartService.js"):
         download_file(
-            "http://eu.httpbin.org/html",
-            "__docroot/test.html",
+            "https://github.com/Basileus1905/OSUE-2020/blob/main/http-testsuite/ArtmartService.js",
+            "__docroot/ArtmartService.js",
         )
 
     if not os.path.exists("__docroot/cat.png"):
@@ -319,7 +319,7 @@ if __name__ == "__main__":
                      | _| | |_| || (__ |   < 
                      |_|   \___/  \___||_|\_\\
 
-                    🔥 The Testsuite crashed! 🔥
+                    ���� The Testsuite crashed! ����
 
 Okay, this shouldn't have happend and is my (the testsuite dev) fault.
 However, there is probably some error in your code that triggered the crash.
